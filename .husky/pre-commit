@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-echo -e '🏃 PRE-COMMIT'
+echo "\n 🏃 PRE-COMMIT \n"
 
 npm run lint
 npm run lint:fix
 npx lint-staged
 
-echo -e '✅ PASS LINT'
+echo -e "\n ✅ PASS LINT \n"
