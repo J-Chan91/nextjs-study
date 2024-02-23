@@ -6,3 +6,5 @@ echo '🏃 PRE-COMMIT'
 npm run lint
 npm run lint:fix
 npx lint-staged
+
+echo '✅ PASS'
