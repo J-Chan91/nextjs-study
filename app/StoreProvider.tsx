@@ -1,7 +1,7 @@
 "use client";
 
-import { AppStore, makeStore } from "@/store/redux";
-import React, { Fragment, useRef } from "react";
+import { AppStore, makeStore } from "@/lib/hooks";
+import React, { useRef } from "react";
 import { Provider } from "react-redux";
 
 export default function StoreProvider({

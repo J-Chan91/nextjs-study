@@ -7,4 +7,4 @@ npm run lint
 npm run lint:fix
 npx lint-staged
 
-echo -e "\n ✅ PASS LINT \n"
+echo "\n ✅ PASS LINT \n"
