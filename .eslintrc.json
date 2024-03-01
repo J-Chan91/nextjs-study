@@ -1,8 +1,9 @@
 {
-  "extends": ["next/core-web-vitals"],
+  "extends": ["next/core-web-vitals", "plugin:storybook/recommended"],
   "parserOptions": {
     "project": "./tsconfig.json"
   },
+  "ignorePatterns": ["!.storybook"],
   "rules": {
     "react/react-in-jsx-scope": 0,
     "react/jsx-props-no-spreading": 0,
@@ -17,12 +18,19 @@
     ],
     "no-unused-vars": "error",
     "quotes": ["off", "single"],
-    "import/prefer-default-export": ["off", { "target": "single" }],
+    "import/prefer-default-export": [
+      "off",
+      {
+        "target": "single"
+      }
+    ],
     "operator-linebreak": [0],
     "semi": ["error", "always"],
     "react/jsx-filename-extension": [
       2,
-      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+      {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
     ]
   }
 }
