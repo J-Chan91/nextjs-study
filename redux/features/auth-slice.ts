@@ -1,44 +1,59 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-type InitialState = {
-  value: AuthState;
+import { User } from "@/types/User";
+import { PostSigninParams, postSignin } from "@/api/user";
+
+const initialState: User = {
+  id: 1,
+  email: "",
+  username: "",
+  password: "",
+  name: {
+    firstname: "",
+    lastname: "",
+  },
+  address: {
+    city: "",
+    street: "",
+    number: 0,
+    zipcode: "",
+    geolocation: {
+      lat: "",
+      long: "",
+    },
+  },
+  phone: "",
 };
 
-type AuthState = {
-  isAuth: boolean;
-  username: string;
-  uid: string;
-  isModerator: boolean;
-};
+export const signin = createAsyncThunk<
+  User,
+  PostSigninParams,
+  {
+    rejectValue: {
+      resultCode: "404";
+      message: string;
+    };
+  }
+>("auth/signin", async (params, { rejectWithValue }) => {
+  try {
+    const response = await postSignin(params.username, params.password);
 
-const initialState = {
-  value: {
-    isAuth: false,
-    username: "",
-    uid: "",
-    isModerator: false,
-  } as AuthState,
-} as InitialState;
+    return response.data;
+  } catch (err: any) {
+    return rejectWithValue(err.response.data);
+  }
+});
 
 export const auth = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    logIn: (state, action: PayloadAction<string>) => {
-      return {
-        value: {
-          isAuth: true,
-          username: action.payload,
-          uid: "1234",
-          isModerator: false,
-        },
-      };
-    },
-    logOut: () => {
-      return initialState;
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(signin.fulfilled, (state, action) => {
+      state = action.payload;
+    });
   },
 });
 
-export const { logIn, logOut } = auth.actions;
+export const {} = auth.actions;
 export default auth.reducer;

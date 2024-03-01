@@ -1,26 +1,41 @@
 "use client";
 
-import { AppDispatch, useAppSelector } from "@/redux/store";
-import { logIn } from "@/redux/features/auth-slice";
+import { AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
+import { signin } from "@/redux/features/auth-slice";
+import { useState } from "react";
 
 type Form = {
   username: string;
+  password: string;
 };
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<Form>({ mode: "onBlur" });
-  const usename = useAppSelector((state) => state.authReducer.value.username);
+    formState: { errors, isValid },
+  } = useForm<Form>({
+    mode: "onBlur",
+    defaultValues: {
+      username: "johnd",
+      password: "m38rmF$",
+    },
+  });
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const clickLoginButton = (data: Form) => {
-    dispatch(logIn(data.username));
+  const clickLoginButton = async (data: Form) => {
+    setIsLoading(true);
+
+    const response = await dispatch(signin(data)).finally(() => {
+      setIsLoading(false);
+    });
+
+    console.log(">", response);
   };
 
   return (
@@ -33,10 +48,11 @@ export default function Home() {
           {...register("username", {
             required: {
               value: true,
-              message: "사용자 이름을 입력해주세요",
+              message: "이메일을 입력해주세요",
             },
           })}
           className="rounded border border-gray-600 p-2 text-sm focus:outline-black"
+          type="text"
           placeholder="username"
         />
 
@@ -44,14 +60,28 @@ export default function Home() {
           <p className="text-sm text-red-400">{errors.username.message}</p>
         )}
 
+        <input
+          {...register("password", {
+            required: {
+              value: true,
+              message: "비밀번호를 입력해주세요",
+            },
+          })}
+          className="rounded border border-gray-600 p-2 text-sm focus:outline-black"
+          type="password"
+          placeholder="password"
+        />
+
+        {errors.password && (
+          <p className="text-sm text-red-400">{errors.password.message}</p>
+        )}
+
         <button
           className="rounded bg-black  py-1 text-sm text-white disabled:bg-gray-400"
-          disabled={!!errors?.username}
+          disabled={!isValid || isLoading}
         >
           로그인
         </button>
-
-        {usename}
       </form>
     </main>
   );
