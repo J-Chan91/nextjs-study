@@ -1,5 +1,7 @@
 import type { StorybookConfig } from "@storybook/nextjs";
 
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+
 const config: StorybookConfig = {
   stories: [
     "../stories/**/*.mdx",
@@ -17,6 +19,10 @@ const config: StorybookConfig = {
   },
   docs: {
     autodocs: "tag",
+  },
+  webpackFinal: async (config) => {
+    config.resolve?.plugins?.push(new TsconfigPathsPlugin({}));
+    return config;
   },
 };
 export default config;
