@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { signin } from "@/redux/features/auth-slice";
 import { useState } from "react";
+import Button from "@/components/Button";
 
 type Form = {
   username: string;
@@ -12,7 +13,7 @@ type Form = {
 };
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const {
     register,
@@ -29,13 +30,11 @@ export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
 
   const clickLoginButton = async (data: Form) => {
-    setIsLoading(true);
+    setLoading(true);
 
-    const response = await dispatch(signin(data)).finally(() => {
-      setIsLoading(false);
+    await dispatch(signin(data)).finally(() => {
+      setLoading(false);
     });
-
-    console.log(">", response);
   };
 
   return (
@@ -76,12 +75,14 @@ export default function Home() {
           <p className="text-sm text-red-400">{errors.password.message}</p>
         )}
 
-        <button
-          className="rounded bg-black  py-1 text-sm text-white disabled:bg-gray-400"
+        <Button
+          label="로그인"
+          type="submit"
+          variant="fulfilled"
+          size="sm"
           disabled={!isValid || isLoading}
-        >
-          로그인
-        </button>
+          isLoading={isLoading}
+        />
       </form>
     </main>
   );
