@@ -46,11 +46,13 @@ export const signin = createAsyncThunk<
 
 export const auth = createSlice({
   name: "auth",
-  initialState,
+  initialState: {
+    user: initialState,
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(signin.fulfilled, (state, action) => {
-      state = action.payload;
+      state.user = action.payload;
     });
   },
 });

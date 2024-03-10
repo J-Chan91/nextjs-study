@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { signin } from "@/redux/features/auth-slice";
 import { useState } from "react";
 import Button from "@/components/Button";
+import { useRouter } from "next/navigation";
 
 type Form = {
   username: string;
@@ -13,6 +14,8 @@ type Form = {
 };
 
 export default function Home() {
+  const router = useRouter();
+
   const [isLoading, setLoading] = useState(false);
 
   const {
@@ -32,9 +35,15 @@ export default function Home() {
   const clickLoginButton = async (data: Form) => {
     setLoading(true);
 
-    await dispatch(signin(data)).finally(() => {
-      setLoading(false);
-    });
+    await dispatch(signin(data))
+      .then((response) => {
+        if (response.meta.requestStatus === "fulfilled") {
+          router.push("/dashboard");
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
