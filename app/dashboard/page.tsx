@@ -19,9 +19,11 @@ export default function Dashboard() {
   const {
     control,
     formState: { errors },
-    register,
-    trigger,
+    getValues,
     handleSubmit,
+    register,
+    setValue,
+    trigger,
   } = useForm<Form>({
     mode: "onBlur",
     defaultValues: { list: [{ name: "", phone: "", memo: "" }] },
@@ -30,6 +32,24 @@ export default function Dashboard() {
     control,
     name: "list",
   });
+
+  const validateDuplication = (phone: string, index: number) => {
+    const list = getValues("list");
+
+    if (list.length <= 1) {
+      return true;
+    }
+
+    const hasPhone = list.some(
+      (item, itemIndex) => item.phone === phone && itemIndex !== index,
+    );
+
+    if (hasPhone) {
+      return "이미 추가한 휴대폰 번호가 있습니다.";
+    }
+
+    return true;
+  };
 
   const handleClickAppendField = (list: Array<Field>) => {
     list.map((_, index) => {
@@ -116,13 +136,26 @@ export default function Dashboard() {
                       <td className="border border-b-0 border-l-0 px-2 py-1">
                         <input
                           {...register(`list.${index}.phone`, {
+                            pattern: {
+                              value: /^(010[-\s]?\d{4}[-\s]?\d{4})$/,
+                              message: "휴대폰 번호 형식이 맞지 않습니다.",
+                            },
                             required: {
                               value: true,
-                              message: "전화번호를 입력해주세요.",
+                              message: "휴대폰 번호를 입력해주세요.",
                             },
-                            minLength: {
-                              value: 8,
-                              message: "최소 8자 이상 입력하세요.",
+                            validate: {
+                              duplicate: (phone) =>
+                                validateDuplication(phone, index),
+                            },
+                            onBlur: (
+                              event: React.FocusEvent<HTMLInputElement>,
+                            ) => {
+                              const value = event.target.value.replace(
+                                /^(\d{2,3})-?(\d{3,4})-?(\d{4,})$/,
+                                `$1-$2-$3`,
+                              );
+                              setValue(`list.${index}.phone`, value);
                             },
                           })}
                           className={cn(

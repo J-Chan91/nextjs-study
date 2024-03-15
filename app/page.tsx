@@ -1,10 +1,11 @@
 "use client";
 
-import { AppDispatch } from "@/redux/store";
-import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
-import { signin } from "@/redux/features/auth-slice";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+
+import { AppDispatch } from "@/redux/store";
+import { signin } from "@/redux/features/auth-slice";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 
@@ -85,11 +86,11 @@ export default function Home() {
         )}
 
         <Button
+          disabled={!isValid || isLoading}
           label="로그인"
+          size="sm"
           type="submit"
           variant="fulfilled"
-          size="sm"
-          disabled={!isValid || isLoading}
           isLoading={isLoading}
         />
       </form>
