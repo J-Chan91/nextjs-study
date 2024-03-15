@@ -19,9 +19,10 @@ export default function Dashboard() {
   const {
     control,
     formState: { errors },
-    register,
-    trigger,
     handleSubmit,
+    register,
+    setValue,
+    trigger,
   } = useForm<Form>({
     mode: "onBlur",
     defaultValues: { list: [{ name: "", phone: "", memo: "" }] },
@@ -118,11 +119,20 @@ export default function Dashboard() {
                           {...register(`list.${index}.phone`, {
                             required: {
                               value: true,
-                              message: "전화번호를 입력해주세요.",
+                              message: "휴대폰 번호를 입력해주세요.",
                             },
-                            minLength: {
-                              value: 8,
-                              message: "최소 8자 이상 입력하세요.",
+                            pattern: {
+                              value: /^(010[-\s]?\d{4}[-\s]?\d{4})$/,
+                              message: "휴대폰 번호 형식이 맞지 않습니다.",
+                            },
+                            onBlur: (
+                              event: React.FocusEvent<HTMLInputElement>,
+                            ) => {
+                              const value = event.target.value.replace(
+                                /^(\d{2,3})-?(\d{3,4})-?(\d{4,})$/,
+                                `$1-$2-$3`,
+                              );
+                              setValue(`list.${index}.phone`, value);
                             },
                           })}
                           className={cn(
