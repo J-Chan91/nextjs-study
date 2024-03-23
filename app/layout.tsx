@@ -7,7 +7,7 @@ import StoreProvider from "./StoreProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "NextJS Study",
+  title: "Playground",
   description: "이것저것 시도해봅니다.",
 };
 
