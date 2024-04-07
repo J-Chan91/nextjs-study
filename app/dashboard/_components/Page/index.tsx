@@ -3,7 +3,7 @@
 import { useSelector } from "react-redux";
 
 import { RootState } from "@/redux/store";
-import { TabContainer, TabContents, TabList } from "@/components/Tab";
+import { TabContainer, TabContents, TabItem, TabList } from "@/components/Tab";
 import TableSection from "../TableSection";
 import TextareaSection from "../TextareaSection";
 
@@ -17,12 +17,10 @@ export default function Page() {
       </div>
 
       <TabContainer defaultValue="T">
-        <TabList
-          tabs={[
-            { label: "테이블", id: "T" },
-            { label: "입력", id: "I" },
-          ]}
-        />
+        <TabList>
+          <TabItem value="T">테이블</TabItem>
+          <TabItem value="I">입력</TabItem>
+        </TabList>
 
         <TabContents value="T">
           <TableSection />
