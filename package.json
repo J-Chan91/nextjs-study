@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.1",
-    "@tanstack/react-table": "^8.13.2",
     "axios": "^1.6.7",
     "clsx": "^2.1.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -27,6 +26,7 @@
     "tailwind-merge": "^2.2.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@storybook/addon-essentials": "^7.6.17",
     "@storybook/addon-interactions": "^7.6.17",
     "@storybook/addon-links": "^7.6.17",

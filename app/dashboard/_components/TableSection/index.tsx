@@ -76,9 +76,7 @@ export default function TableSection() {
                 </div>
               </th>
               <th className="border border-r-0 border-t-0 px-2 py-1">메모</th>
-              <th className="min-w-20 border border-r-0 border-t-0 px-2 py-1">
-                -
-              </th>
+              <th className="w-20 border border-r-0 border-t-0 px-2 py-1">-</th>
             </tr>
           </thead>
 
